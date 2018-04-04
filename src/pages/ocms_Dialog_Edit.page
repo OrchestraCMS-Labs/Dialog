@@ -1,0 +1,81 @@
+<apex:page controller="cms.CreateContentController" extensions="ocms_DialogController" showHeader="false" sidebar="false" standardStylesheets="false">
+    <script>
+        $(document).ready(function _contentEditorReady() {
+            if (!ocmsEditorAPI.getEnabled()) {
+                $('input, textarea, select', $('.ocms-contentPropertiesEdit')).prop('disabled', true);
+            };
+            CKEDITOR.replace('dialogBody', $.extend({readOnly: !ocmsEditorAPI.getEnabled()}, {!CKEditorConfig}));
+            $('#closeOnEscape').prop('checked', {!closeOnEscape});
+            $('#closeOnOverlay').prop('checked', {!closeOnOverlay});
+            ce.content_editor('registerSaveFunction', function() {
+                var attributes = new Array();
+                attributes.push({name: 'dialogTitle', value: $('#dialogTitle').val(), type: 'Text', simple: true});
+                attributes.push({name: 'dialogBody', value: CKEDITOR.instances.dialogBody.getData(), type: 'Text'});
+                attributes.push({name: 'dialogId', value: $('#dialogId').val(), type: 'Text', lang: '', simple: true});
+                attributes.push({name: 'closeOnEscape', value: $('#closeOnEscape').is(':checked') ? 'true' : 'false', type: 'Text', lang: '', simple: true});
+                attributes.push({name: 'closeOnOverlay', value: $('#closeOnOverlay').is(':checked') ? 'true' : 'false', type: 'Text', lang: '', simple: true});
+                return attributes;
+            });
+        });
+    </script>
+    <div id="dialogTabs">
+        <ul>
+            <li>
+                <a href="#basicSettings">
+                    Basic Settings
+                </a>
+            </li>
+            <li>
+                <a href="#advancedSettings">
+                    Advanced Settings
+                </a>
+            </li>
+        </ul>
+        <div id="basicSettings">
+            <table class="ocmsContentEditor ocmsContentEditorNested">
+                <tr>
+                    <td>
+                        <label class="ocmsLabel" for="dialogTitle">Dialog Title</label>
+                        <input id="dialogTitle" name="dialogTitle" value="{!dialogTitle}" />
+                        <p class="ocmsHelpText">The title of your dialog.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="ocmsLabel" for="dialogBody">Dialog Body</label>
+                        <textarea data-ee="richText" id="dialogBody">{!dialogBody}</textarea>
+                        <p class="ocmsHelpText">The content of your dialog.</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="advancedSettings">
+            <table class="ocmsContentEditor ocmsContentEditorNested">
+                <tr>
+                    <td>
+                        <label class="ocmsLabel" for="dialogId">Dialog Id</label>
+                        <input type="text" id="dialogId" name="dialogId" />
+                        <p class="ocmsHelpText">The Id of your dialog. This should be unique in the event multiple dialogs are going to be used. Valid characters are alpha-numerics, hyphens and underscores.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="ocmsLabel" for="closeOnEscape">Close On Escape</label>
+                        <input type="checkbox" id="closeOnEscape" checked="checked" />
+                        <p class="ocmsHelpText">Specifies whether the dialog should close when it has focus and the user presses the escape (ESC) key.</p>
+                    </td>
+                    <td>
+                        <label class="ocmsLabel" for="closeOnOverlay">Close On Overlay Click</label>
+                        <input type="checkbox" id="closeOnOverlay" checked="checked" />
+                        <p class="ocmsHelpText">Specifies whether the dialog should close when it has focus and the user clicks outside the dialog.</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#dialogTabs').tabs();
+        });
+    </script>
+</apex:page>
