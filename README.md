@@ -1,4 +1,4 @@
-# Stock Feed Yahoo
+# Dialog
 
 <!-- MarkdownTOC depth=3 -->
 
