@@ -44,7 +44,7 @@ global virtual with sharing class ocms_DialogController extends cms.ContentTempl
 
     public String dialogTitle {
         get {
-            return getStringPropertyWithDefault('dialogTitle', getOriginId());
+            return getStringPropertyWithDefault('dialogTitle', '');
         }
     }
 
@@ -74,12 +74,10 @@ global virtual with sharing class ocms_DialogController extends cms.ContentTempl
             + '</div>';
 
         script += '<script>\n';
-            script += '$(document).ocmsDynamicLoadFinished(function(){\n';
-                script += '$(\'#' + dialogId + '\').dialog({\n';
-                    script += 'closeOnEscape: ' + closeOnEscape + ',\n';
-                    script += 'title: \'' + dialogTitle + '\',\n';
-                    script += 'buttons: [{ text: \'Ok\', click: function() {$(this).dialog(\'close\');}}]\n';
-                script += '});\n';
+            script += '$(\'#' + dialogId.escapeHtml4() + '\').dialog({\n';
+                script += 'closeOnEscape: ' + closeOnEscape + ',\n';
+                script += 'title: \'' + dialogTitle.escapeHtml4() + '\',\n';
+                script += 'buttons: [{ text: \'Ok\', click: function() {$(this).dialog(\'close\');}}]\n';
             script += '});\n';
 
         script += '</script>\n';

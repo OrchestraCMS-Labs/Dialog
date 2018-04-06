@@ -1,6 +1,7 @@
 <apex:page controller="cms.CreateContentController" extensions="ocms_DialogController" showHeader="false" sidebar="false" standardStylesheets="false">
     <script>
         $(document).ready(function _contentEditorReady() {
+            $('#dialogTabs').tabs();
             if (!ocmsEditorAPI.getEnabled()) {
                 $('input, textarea, select', $('.ocms-contentPropertiesEdit')).prop('disabled', true);
             };
@@ -73,9 +74,4 @@
             </table>
         </div>
     </div>
-    <script>
-        $(document).ready(function(){
-            $('#dialogTabs').tabs();
-        });
-    </script>
 </apex:page>
